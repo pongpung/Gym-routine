@@ -1,181 +1,374 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Push Pull Legs Aesthetic Routine</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f3f4f6;
-      margin: 0;
-      padding: 0;
-      color: #111827;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Aesthetic PPL • Log</title>
+    <meta name="color-scheme" content="dark light"/>
+    
+    <style>
+        :root {
+            --bg:        #0f0f11;
+            --surface:   #18181b;
+            --surface-2: #222226;
+            --primary:   #c084fc;
+            --primary-dim:#a855f7;
+            --success:   #22d3ee;
+            --text:      #f1f1f3;
+            --text-2:    #a1a1aa;
+            --border:    #333338;
+            --danger:    #f87171;
+        }
 
-    header {
-      background-color: #1f2937;
-      color: white;
-      padding: 1.5rem;
-      text-align: center;
-    }
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg:        #f8f9fc;
+                --surface:   #ffffff;
+                --surface-2: #f1f1f5;
+                --primary:   #7c3aed;
+                --primary-dim:#6d28d9;
+                --success:   #06b6d4;
+                --text:      #111114;
+                --text-2:    #52525b;
+                --border:    #d4d4d8;
+            }
+        }
 
-    h1 {
-      margin: 0;
-      font-size: 1.8rem;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    main {
-      max-width: 1100px;
-      margin: auto;
-      padding: 2rem 1rem;
-    }
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100dvh;
+            padding: 1.5rem 1rem;
+            display: grid;
+            place-items: center;
+            gap: 1.5rem;
+        }
 
-    section {
-      margin-bottom: 2.5rem;
-    }
+        header {
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
 
-    h2 {
-      color: #2563eb;
-      margin-bottom: 0.5rem;
-    }
+        h1 {
+            font-size: 2.1rem;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            background: linear-gradient(90deg, var(--primary), #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-    p.target {
-      margin-bottom: 1rem;
-      font-weight: bold;
-    }
+        .subtitle {
+            color: var(--text-2);
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    }
+        .card-controls {
+            width: 100%;
+            max-width: 640px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 0.9rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
 
-    th, td {
-      padding: 0.75rem 1rem;
-      border-bottom: 1px solid #e5e7eb;
-      text-align: left;
-    }
+        label[for="daySelect"] {
+            color: var(--text-2);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
 
-    th {
-      background-color: #f9fafb;
-      color: #374151;
-      font-size: 0.95rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+        select {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            color: var(--primary);
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
 
-    td a {
-      color: #3b82f6;
-      text-decoration: none;
-      font-weight: 500;
-    }
+        .workout-container {
+            width: 100%;
+            max-width: 640px;
+            display: grid;
+            gap: 1rem;
+        }
 
-    td a:hover {
-      text-decoration: underline;
-    }
+        .exercise-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem 1.4rem;
+            transition: all 0.15s ease;
+        }
 
-    footer {
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.9rem;
-      color: #6b7280;
-      background: #f1f5f9;
-    }
+        .exercise-card:hover {
+            border-color: var(--primary-dim);
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 12%, transparent);
+        }
 
-    @media (max-width: 768px) {
-      th, td {
-        font-size: 0.9rem;
-      }
-    }
-  </style>
+        .exercise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .exercise-name {
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .target {
+            font-size: 0.82rem;
+            color: var(--text-2);
+            background: var(--surface-2);
+            padding: 0.35em 0.7em;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+
+        .inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.9rem;
+        }
+
+        .field {
+            display: grid;
+            gap: 0.35rem;
+        }
+
+        .field label {
+            font-size: 0.74rem;
+            color: var(--text-2);
+            font-weight: 500;
+        }
+
+        input[type="number"],
+        input[type="text"] {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: inherit;
+            font-size: 1.05rem;
+            text-align: center;
+            transition: border-color 0.15s;
+        }
+
+        input:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        input:not(:disabled):focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 18%, transparent);
+        }
+
+        .save-btn {
+            width: 100%;
+            max-width: 640px;
+            padding: 1.1rem;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: black;
+            background: var(--primary);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .save-btn:hover {
+            filter: brightness(1.08);
+        }
+
+        .save-btn:active {
+            transform: translateY(1px);
+        }
+
+        .save-btn.saved {
+            background: var(--success);
+            color: black;
+        }
+
+        @media (max-width: 520px) {
+            .inputs { grid-template-columns: 1fr 1fr; }
+            body { padding: 1rem 0.8rem; }
+        }
+    </style>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#bb86fc">
+
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body>
 
 <header>
-  <h1>Push-Pull-Legs Aesthetic Routine 💪</h1>
+    <h1>Aesthetic Log</h1>
+    <div class="subtitle">Progressive Overload • Week by Week</div>
 </header>
 
-<main id="routine-container"></main>
+<div class="card-controls">
+    <label for="daySelect">Today's focus:</label>
+    <select id="daySelect">
+        <option value="push">Push • Chest / Shoulders / Triceps</option>
+        <option value="pull">Pull • Back / Biceps / Rear Delts</option>
+        <option value="legs">Legs • Quads / Hams / Calves / Core</option>
+    </select>
+</div>
 
-<footer>
-  © 2025 Aesthetic Routine. Train smart, stay consistent!
-</footer>
+<div class="workout-container" id="workoutList"></div>
+
+<button type="button" class="save-btn" id="saveBtn">
+    Save Progress
+</button>
+
 
 <script>
-  const routine = [
-    {
-      day: "Push Day (Mon & Thu)",
-      target: "Chest, Shoulders, Triceps",
-      exercises: [
-        ["Incline Barbell Press", "4 x 8–10", "https://www.lyfta.app/video/GymvisualMP4/00471201.mp4"],
-        ["Dumbbell Flat Press", "3 x 10–12", "https://www.lyfta.app/video/GymvisualMP4/02891201.mp4"],
-        ["Cable Chest Fly", "3 x 12–15", "https://www.lyfta.app/video/GymvisualMP4/02271201.mp4"],
-        ["Seated Dumbbell Shoulder Press", "4 x 8–10", "https://www.lyfta.app/video/GymvisualMP4/04051201.mp4"],
-        ["Lateral Raises", "4 x 15–20", "https://www.lyfta.app/video/GymvisualMP4/03341201.mp4"],
-        ["Triceps Rope Pushdown", "3 x 12–15", "https://www.lyfta.app/video/GymvisualMP4/02411201.mp4"],
-        ["Overhead Triceps Extension", "3 x 12–15", "https://www.lyfta.app/video/GymvisualMP4/01941201.mp4"]
-      ]
-    },
-    {
-      day: "Pull Day (Tue & Fri)",
-      target: "Back, Biceps, Rear Delts",
-      exercises: [
-        ["Lat Pulldown", "4 x 8–10", "https://www.lyfta.app/video/GymvisualMP4/01501201.mp4"],
-        ["Barbell Bent-over Row", "4 x 10", "https://www.lyfta.app/video/GymvisualMP4/00271201.mp4"],
-        ["Face Pulls", "3 x 15", "https://www.lyfta.app/video/GymvisualMP4/77441201.mp4"],
-        ["Barbell or EZ Bar Curl", "3 x 10–12", "https://www.lyfta.app/video/GymvisualMP4/04471201.mp4"],
-        ["Hammer Curls", "3 x 12–15", "https://www.lyfta.app/video/GymvisualMP4/03121201.mp4"],
-        ["Preacher/Concentration Curl", "3 x 12–15", "https://www.lyfta.app/video/GymvisualMP4/02971201.mp4"]
-      ]
-    },
-    {
-      day: "Leg Day (Wed & Sat)",
-      target: "Glutes, Quads, Hamstrings, Calves",
-      exercises: [
-        ["Barbell Squat", "4 x 8–10", "https://www.lyfta.app/video/GymvisualMP4/00431201.mp4"],
-        ["Romanian Deadlift", "4 x 10–12", "https://www.lyfta.app/video/GymvisualMP4/00851201.mp4"],
-        ["Bulgarian Split Squats", "3 x 10/leg", "https://www.lyfta.app/video/GymvisualMP4/66781201.mp4"],
-        ["Leg Press", "3 x 12", "https://www.lyfta.app/video/GymvisualMP4/07391201.mp4"],
-        ["Lying Leg Curl", "3 x 12–15", "https://www.lyfta.app/video/GymvisualMP4/05861201.mp4"],
-        ["Seated Calf Raise", "4 x 15–20", "https://www.lyfta.app/video/GymvisualMP4/26661201.mp4"],
-        ["Standing Calf Raise", "3 x 20", "https://www.lyfta.app/video/GymvisualMP4/04171201.mp4"]
-      ]
+const routine = {
+    push: [
+        { name: "Incline DB Press",        sets: 3, reps: "8-10"     },
+        { name: "Flat Bench Press",         sets: 3, reps: "6-8"      },
+        { name: "Overhead Press",           sets: 3, reps: "8-10"     },
+        { name: "Lateral Raises",           sets: 4, reps: "12-15"    },
+        { name: "Tricep Pushdowns",         sets: 3, reps: "10-12"    },
+        { name: "Overhead Tricep Extension",sets: 3, reps: "10-12"    }
+    ],
+    pull: [
+        { name: "Lat Pulldowns",            sets: 3, reps: "10-12"    },
+        { name: "Bent Over Rows",           sets: 3, reps: "8-10"     },
+        { name: "Single Arm DB Row",        sets: 3, reps: "10-12"    },
+        { name: "Face Pulls",               sets: 3, reps: "15-20"    },
+        { name: "Hammer Curls",             sets: 3, reps: "10-12"    },
+        { name: "Incline DB Curls",         sets: 3, reps: "10-12"    }
+    ],
+    legs: [
+        { name: "Squat / Leg Press",        sets: 3, reps: "6-8"      },
+        { name: "Romanian Deadlift",        sets: 3, reps: "10-12"    },
+        { name: "Bulgarian Split Squat",    sets: 3, reps: "8-10"     },
+        { name: "Calf Raises",              sets: 4, reps: "12-15"    },
+        { name: "Hanging Leg Raises",       sets: 3, reps: "to failure" },
+        { name: "Plank",                    sets: 3, reps: "60s+"     }
+    ]
+};
+
+const daySelect   = document.getElementById('daySelect');
+const workoutList = document.getElementById('workoutList');
+const saveBtn     = document.getElementById('saveBtn');
+
+function getDayData(day) {
+    try {
+        return JSON.parse(localStorage.getItem(`ppl_log_${day}`) ?? '[]');
+    } catch {
+        return [];
     }
-  ];
+}
 
-  const container = document.getElementById("routine-container");
+function saveDayData(day, data) {
+    localStorage.setItem(`ppl_log_${day}`, JSON.stringify(data));
+}
 
-  routine.forEach(day => {
-    const section = document.createElement("section");
-    section.innerHTML = `
-      <h2>${day.day}</h2>
-      <p class="target">Target: ${day.target}</p>
-      <table>
-        <thead>
-          <tr>
-            <th>Exercise</th>
-            <th>Sets x Reps</th>
-            <th>Video</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${day.exercises.map(ex => `
-            <tr>
-              <td>${ex[0]}</td>
-              <td>${ex[1]}</td>
-              <td><a href="${ex[2]}" target="_blank" rel="noopener noreferrer">▶️ Watch</a></td>
-            </tr>
-          `).join("")}
-        </tbody>
-      </table>
-    `;
-    container.appendChild(section);
-  });
+function render() {
+    const day = daySelect.value;
+    const exercises = routine[day] ?? [];
+    const history = getDayData(day);
+
+    workoutList.innerHTML = '';
+
+    exercises.forEach((ex, i) => {
+        const prev = history[i] ?? { weight: '', reps: '' };
+
+        const card = document.createElement('div');
+        card.className = 'exercise-card';
+
+        card.innerHTML = `
+            <div class="exercise-header">
+                <span class="exercise-name">${ex.name}</span>
+                <span class="target">Target: ${ex.reps}</span>
+            </div>
+            <div class="inputs">
+                <div class="field">
+                    <label>Sets</label>
+                    <input type="text" value="${ex.sets}" disabled>
+                </div>
+                <div class="field">
+                    <label>Best Weight (kg)</label>
+                    <input type="number" step="0.25" min="0" 
+                           placeholder="—" value="${prev.weight}"
+                           data-index="${i}" class="weight">
+                </div>
+                <div class="field">
+                    <label>Best Reps</label>
+                    <input type="number" min="0" 
+                           placeholder="—" value="${prev.reps}"
+                           data-index="${i}" class="reps">
+                </div>
+            </div>
+        `;
+
+        workoutList.appendChild(card);
+    });
+
+    saveBtn.textContent = 'Save Progress';
+    saveBtn.classList.remove('saved');
+}
+
+// Auto select most probable day (Monday/Thursday → Push etc.)
+const today = new Date().getDay();
+if ([1,4].includes(today)) daySelect.value = 'push';
+else if ([2,5].includes(today)) daySelect.value = 'pull';
+else if ([3,6].includes(today)) daySelect.value = 'legs';
+
+daySelect.addEventListener('change', render);
+saveBtn.addEventListener('click', () => {
+    const day = daySelect.value;
+    const inputs = [...workoutList.querySelectorAll('.exercise-card')].map(card => ({
+        weight: card.querySelector('.weight').value.trim(),
+        reps:   card.querySelector('.reps').value.trim()
+    }));
+
+    saveDayData(day, inputs);
+
+    saveBtn.textContent = 'Saved ✓';
+    saveBtn.classList.add('saved');
+
+    setTimeout(() => {
+        saveBtn.textContent = 'Save Progress';
+        saveBtn.classList.remove('saved');
+    }, 1800);
+});
+
+// First render
+render();
 </script>
-
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js");
+  });
+}
+</script>
 </body>
 </html>
